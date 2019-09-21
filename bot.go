@@ -4,22 +4,22 @@ import (
 	"fmt"
 	"math/rand"
 	"net"
+	"runtime"
 	"strconv"
 	"strings"
 	"sync"
 	"time"
 )
 
-var header = `
-GET /?{} HTTP/1.1\r\n
-Connection: keep-alive\r\n
-User-Agent: {}\r\n\r\n
-`
+var header = "GET /?{} HTTP/1.1\r\n" +
+	"Connection: keep-alive\r\n" +
+	"User-Agent: {}\r\n\r\n" +
+	"Accept-Language: *\r\n" +
+	"Accept-Encoding: *\r\n" +
+	"Accept: *\r\n"
 
 func init() {
 	rand.Seed(time.Now().UTC().UnixNano())
-	header = strings.ReplaceAll(header, "\n\n", "\n")
-	header = strings.ReplaceAll(header, "\nGET", "GET")
 }
 
 type Bot struct {
@@ -51,9 +51,9 @@ func (b *Bot) interact(conn *net.TCPConn) {
 
 main:
 	for {
-		for i := 0; i < randint(5, 12); i++ {
+		for i := 0; i < randint(10, 15); i++ {
 			if b.isAlive {
-				time.Sleep(time.Second)
+				runtime.Gosched()
 			} else {
 				break main
 			}

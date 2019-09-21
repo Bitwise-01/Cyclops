@@ -13,8 +13,10 @@ import (
 	"syscall"
 )
 
-var cls string
-var isWin bool = false
+var (
+	cls   string
+	isWin = false
+)
 
 const defaultThreads = 2048
 
